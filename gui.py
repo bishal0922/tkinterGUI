@@ -8,6 +8,9 @@ ourFont = "Courier"
 '''
 Definitions
 '''
+def works():
+    print("works")
+
 def req1_result(Frame, select, from_table, where):
     #connect to the database
     
@@ -40,7 +43,7 @@ def req2_result(Frame, name, phone):
 
     #get the results
     results = c.fetchall()
-
+    print("updated the database with " + name + " " + phone) 
     Frame.config(text="Updated the database\n" + name + " " + phone)
 
     #if you want to commit the changes
@@ -48,8 +51,41 @@ def req2_result(Frame, name, phone):
 
     return
 
-def test_works():
-    print("it works")
+def req3_result(Frame, vin, desc, year, type, cat):
+    #connect to the database
+
+    conn = sqlite3.connect('finalpart3 copy.db')
+    c = conn.cursor()
+
+    #execute the query
+    c.execute("INSERT INTO Vehicle VALUES (?, ?, ?, ?, ?)", (vin, desc, year, type, cat))
+
+    #get the results
+    results = c.fetchall()
+    print("updated the database with " + vin + " " + desc + " " + year + " " + type + " " + cat)
+    Frame.config(text="Updated the database\n" + vin + " " + desc + " " + year + " " + type + " " + cat)
+
+    #if you want to commit the changes
+    #conn.commit()
+
+    return
+
+def req4_result(Frame, CustID, VehicleId, StartDate, OrderDate, RentalType, Qty, ReturnDate, TotalAmount, PaymentDate):
+    #connect to the database
+
+    conn = sqlite3.connect('finalpart3 copy.db')
+    c = conn.cursor()
+
+    #execute the query
+    c.execute("INSERT INTO RENTAL VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (CustID, VehicleId, StartDate, OrderDate, RentalType, Qty, ReturnDate, TotalAmount, PaymentDate, 'NULL'))
+
+    #get the results
+    results = c.fetchall()
+    print("updated the database with " + CustID + " " + VehicleId + " " + StartDate + " " + OrderDate + " " + RentalType + " " + Qty + " " + ReturnDate + " " + TotalAmount + " " + PaymentDate)
+    Frame.config(text="Updated the database\n" + CustID + " " + VehicleId + " " + StartDate + " " + OrderDate + " " + RentalType + " " + Qty + " " + ReturnDate + " " + TotalAmount + " " + PaymentDate)
+
+    #if you want to commit the changes
+    #conn.commit()
     return
 
 def req1_func():
@@ -140,13 +176,158 @@ def req2_func():
     return 
 
 def req3_func():
-    return
+    #this is to add a new customer
+    req3_window = Toplevel()
+    req3_window.title("Add a new Vehicle")
+    req3_window.geometry("600x500")
+
+    #Frame to contain the input fields and output fields
+    query_frame = Frame(req3_window)
+    output_frame = Frame(req3_window)
+
+    #create a label  -> Request 1
+    req1_label = Label(query_frame, text="Add a new Vehicle", font=ourFont)
+    req1_label.grid(row=0, column=0, columnspan=2, padx=200, pady=10)
+
+    #VehicleID(VIN), Description, year, type, category
+
+    #create a label  -> VIN
+    vin_name_label = Label(query_frame, text="VehicleID: ", font=ourFont)
+    vin_name_label.grid(row=1, column=0, padx=10, pady=10)
+    #create an entry box
+    vin_name_label_txt = Entry(query_frame, font=ourFont)
+    vin_name_label_txt.grid(row=1, column=1, padx=10, pady=10)
+    
+    #create a label  -> DSEC
+    desc_label = Label(query_frame, text="Description: ", font=ourFont)
+    desc_label.grid(row=2, column=0, padx=10, pady=10)
+    #create an entry box
+    desc_label_txt = Entry(query_frame, font=ourFont)
+    desc_label_txt.grid(row=2, column=1, padx=10, pady=10)
+
+    #create a label  -> YEAR
+    year_label = Label(query_frame, text="Year: ", font=ourFont)
+    year_label.grid(row=3, column=0, padx=10, pady=10)
+    #create an entry box
+    year_label_txt = Entry(query_frame, font=ourFont)
+    year_label_txt.grid(row=3, column=1, padx=10, pady=10)
+    
+    #create a label  -> TYPE
+    type_label = Label(query_frame, text="Type: ", font=ourFont)
+    type_label.grid(row=4, column=0, padx=10, pady=10)
+    #create an entry box
+    type_label_txt = Entry(query_frame, font=ourFont)
+    type_label_txt.grid(row=4, column=1, padx=10, pady=10)
+
+    #create a label  -> CATEGORY
+    category_label = Label(query_frame, text="Category: ", font=ourFont)
+    category_label.grid(row=5, column=0, padx=10, pady=10)
+    #create an entry box
+    category_label_txt = Entry(query_frame, font=ourFont)
+    category_label_txt.grid(row=5, column=1, padx=10, pady=10)
+    
+
+    results_label = Label(output_frame, text="", font=ourFont)
+    results_label.grid(row=0, column=0, padx=10, pady=10)
+
+    # button to submit the query
+    submit_button = Button(query_frame, text="Submit", font=ourFont, command=lambda: req3_result(results_label, vin_name_label_txt.get(), desc_label_txt.get(), year_label_txt.get(), type_label_txt.get(), category_label_txt.get()))
+    submit_button.grid(row=6, column=0, columnspan=2, padx=10, pady=10)
+
+    query_frame.grid(row=0, column=0)
+    output_frame.grid(row=1, column=0)
+
+    return 
 
 def req4_func():
+    #this is to add a new Reservation
+    req4_window = Toplevel()
+    req4_window.title("Add a new Reservation")
+    req4_window.geometry("600x700")
+
+    #Frame to contain the input fields and output fields
+    query_frame = Frame(req4_window)
+    output_frame = Frame(req4_window)
+
+    #create a label  -> Request 1
+    req1_label = Label(query_frame, text="Add a new Reservation", font=ourFont)
+    req1_label.grid(row=0, column=0, columnspan=2, padx=200, pady=10)
+
+
+    #CREATE ALL THE LABELS AND ENTRY BOXES
+
+    CustID_name_label = Label(query_frame, text="CustID: ", font=ourFont)
+    CustID_name_label.grid(row=1, column=0, padx=10, pady=10)
+    CustID_name_label_txt = Entry(query_frame, font=ourFont)
+    CustID_name_label_txt.grid(row=1, column=1, padx=10, pady=10)
+
+    VehicleId_name_label = Label(query_frame, text="VehicleId: ", font=ourFont)
+    VehicleId_name_label.grid(row=2, column=0, padx=10, pady=10)
+    VehicleId_name_label_txt = Entry(query_frame, font=ourFont)
+    VehicleId_name_label_txt.grid(row=2, column=1, padx=10, pady=10)
+
+    StartDate_name_label = Label(query_frame, text="StartDate: ", font=ourFont)
+    StartDate_name_label.grid(row=3, column=0, padx=10, pady=10)
+    StartDate_name_label_txt = Entry(query_frame, font=ourFont)
+    StartDate_name_label_txt.grid(row=3, column=1, padx=10, pady=10)
+
+    OrderDate_name_label = Label(query_frame, text="OrderDate: ", font=ourFont)
+    OrderDate_name_label.grid(row=4, column=0, padx=10, pady=10)
+    OrderDate_name_label_txt = Entry(query_frame, font=ourFont)
+    OrderDate_name_label_txt.grid(row=4, column=1, padx=10, pady=10)
+
+    RentalType_name_label = Label(query_frame, text="RentalType: ", font=ourFont)
+    RentalType_name_label.grid(row=5, column=0, padx=10, pady=10)
+    RentalType_name_label_txt = Entry(query_frame, font=ourFont)
+    RentalType_name_label_txt.grid(row=5, column=1, padx=10, pady=10)
+
+    Qty_name_label = Label(query_frame, text="Qty: ", font=ourFont)
+    Qty_name_label.grid(row=6, column=0, padx=10, pady=10)
+    Qty_name_label_txt = Entry(query_frame, font=ourFont)
+    Qty_name_label_txt.grid(row=6, column=1, padx=10, pady=10)
+
+    ReturnDate_name_label = Label(query_frame, text="ReturnDate: ", font=ourFont)
+    ReturnDate_name_label.grid(row=7, column=0, padx=10, pady=10)
+    ReturnDate_name_label_txt = Entry(query_frame, font=ourFont)
+    ReturnDate_name_label_txt.grid(row=7, column=1, padx=10, pady=10)
+
+    TotalAmount_name_label = Label(query_frame, text="TotalAmount: ", font=ourFont)
+    TotalAmount_name_label.grid(row=8, column=0, padx=10, pady=10)
+    TotalAmount_name_label_txt = Entry(query_frame, font=ourFont)
+    TotalAmount_name_label_txt.grid(row=8, column=1, padx=10, pady=10)
+
+    PaymentDate_label = Label(query_frame, text="PaymentDate: ", font=ourFont)
+    PaymentDate_label.grid(row=9, column=0, padx=10, pady=10)
+    PaymentDate_label_txt = Entry(query_frame, font=ourFont)
+    PaymentDate_label_txt.grid(row=9, column=1, padx=10, pady=10)  
+
+    ## aAFGDDFGSDFGSFDGSDFG
+    results_label = Label(output_frame, text="", font=ourFont)
+    results_label.grid(row=0, column=0, padx=10, pady=10)
+
+    # button to submit the query
+    #
+    submit_button = Button(query_frame, text="Submit", font=ourFont, command=lambda: req4_result(results_label, CustID_name_label_txt.get(), VehicleId_name_label_txt.get(), StartDate_name_label_txt.get(), OrderDate_name_label_txt.get(), RentalType_name_label_txt.get(), Qty_name_label_txt.get(), ReturnDate_name_label_txt.get(), TotalAmount_name_label_txt.get(), PaymentDate_label_txt.get()))
+    submit_button.grid(row=10, column=0, columnspan=2, padx=10, pady=10)
+
+    query_frame.grid(row=0, column=0)
+    output_frame.grid(row=1, column=0)
+
     return
 
 def req5_func():
     return
+
+
+'''
+    ########################################
+
+        MAIN PROGRAM STARTS HERE
+
+    ########################################
+
+'''
+
 
 # add tkinter window
 root = Tk()
@@ -158,8 +339,6 @@ conn = sqlite3.connect('finalpart3.db')
 
 # create cursor
 c = conn.cursor()
-
-
 
 # add some text
 text = Label(root, text="Add some text", font=ourFont)
@@ -176,7 +355,7 @@ req2 = Button(root, text="Add New Cutomer", font=ourFont,command=req2_func )
 req2.grid(row=3, column=0, columnspan=2, pady=10)
 
 # button to add a record
-req3 = Button(root, text="Update Vehicle", font=ourFont, command=req3_func)
+req3 = Button(root, text="New Vehicle", font=ourFont, command=req3_func)
 req3.grid(row=5, column=0, columnspan=2, pady=10)
 
 # button to add a record
