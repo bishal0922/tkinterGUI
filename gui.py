@@ -115,6 +115,10 @@ def req5_result(Frame, CustName, VehicleID, ReturnDate):
     conn.commit()
     return
 
+def req6_result(Frame, CustName, CustID):
+    Frame.config(text="Updated the database\n" + CustName + " " + CustID)
+    return
+
 def req1_func():
     #open a new window
     req1_window = Toplevel()
@@ -389,7 +393,43 @@ def req5_func():
     return
 
 def req6_func():
-    print("req6_func")
+    req6_window = Toplevel()
+    req6_window.title("Retrieve Customer Info")
+    req6_window.geometry("600x700")
+
+    #Frame to contain the input fields and output fields
+    query_frame = Frame(req6_window)
+    output_frame = Frame(req6_window)
+
+    #create a label  -> Request 1
+    req1_label = Label(query_frame, text="Retrieve Customer Info", font=ourFont)
+    req1_label.grid(row=0, column=0, columnspan=2, padx=200, pady=10)
+
+    # Name, return date, vin
+    #CREATE ALL THE LABELS AND ENTRY BOXES
+
+    CustName_label = Label(query_frame, text="Cust. Name: ", font=ourFont)
+    CustName_label.grid(row=1, column=0, padx=10, pady=10)
+    CustName_label_txt = Entry(query_frame, font=ourFont)
+    CustName_label_txt.grid(row=1, column=1, padx=10, pady=10)
+
+    CustID_name_label = Label(query_frame, text="Cust. ID: ", font=ourFont)
+    CustID_name_label.grid(row=2, column=0, padx=10, pady=10)
+    CustID_name_label_txt = Entry(query_frame, font=ourFont)
+    CustID_name_label_txt.grid(row=2, column=1, padx=10, pady=10)
+
+    ## aAFGDDFGSDFGSFDGSDFG
+    results_label = Label(output_frame, text="", font=ourFont)
+    results_label.grid(row=0, column=0, padx=10, pady=10)
+
+    # button to submit the query
+    
+    submit_button = Button(query_frame, text="Submit", font=ourFont, command=lambda: req6_result(results_label, CustName_label_txt.get(), CustID_name_label_txt.get()))
+    submit_button.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
+
+    query_frame.grid(row=0, column=0)
+    output_frame.grid(row=1, column=0)
+
     return
 
 def req7_func():
