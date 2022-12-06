@@ -116,7 +116,19 @@ def req5_result(Frame, CustName, VehicleID, ReturnDate):
     return
 
 def req6_result(Frame, CustName, CustID):
+    #connect to the database
+    conn = sqlite3.connect('finalpart3 copy.db')
+    c = conn.cursor()
+
     Frame.config(text="Updated the database\n" + CustName + " " + CustID)
+
+    query = "SELECT C.Name, R.TotalAmount FROM RENTAL AS R JOIN CUSTOMER AS C ON R.CustID = C.CustID AND C.Name= \"" + CustName + "\"  AND R.CustID = '" + CustID + "'"
+    c.execute(query)
+
+    results = c.fetchall()
+    print(results)
+
+    Frame.config(text=("Balance: \n" + str(results[0][1]) + "\n Updated the database.."))
     return
 
 def req1_func():
