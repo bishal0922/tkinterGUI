@@ -88,6 +88,33 @@ def req4_result(Frame, CustID, VehicleId, StartDate, OrderDate, RentalType, Qty,
     #conn.commit()
     return
 
+def req5_result(Frame, CustName, VehicleID, ReturnDate):
+    #connect to the database
+
+    conn = sqlite3.connect('finalpart3 copy.db')
+    c = conn.cursor()
+
+    #execute the query
+    query = "SELECT R.CustID, R.TotalAmount FROM RENTAL AS R JOIN CUSTOMER AS C ON R.CustID = C.CustID WHERE R.ReturnDate = \"" + ReturnDate + "\" AND C.Name= \"" + CustName + "\"  AND R.VehicleID = '" + VehicleID + "'"
+    
+    print(query)
+    c.execute(query)
+    
+    #get the results
+    results = c.fetchall()
+
+    c.execute("UPDATE RENTAL SET Returned = 1, PaymentDate = CASE WHEN PaymentDate = 'NULL' THEN '" + ReturnDate + "' END WHERE CustID = " + str(results[0][0]) + " AND ReturnDate = '" + ReturnDate + "' AND VehicleID = '" + VehicleID + "'")
+    print(c.fetchall())
+    Frame.config(text=("Payment Due: \n" + str(results[0][1]) + "\n Updated the database.."))
+
+    #A. Hernandez G. Clarkson
+    #JM3KE4DYF0441471 19VDE1F3XEE414842
+    #2019-09-13 2019-11-15
+    
+    #if you want to commit the changes
+    conn.commit()
+    return
+
 def req1_func():
     #open a new window
     req1_window = Toplevel()
@@ -316,6 +343,49 @@ def req4_func():
     return
 
 def req5_func():
+     #this is to add a new Reservation
+    req5_window = Toplevel()
+    req5_window.title("Handle Car Return")
+    req5_window.geometry("600x700")
+
+    #Frame to contain the input fields and output fields
+    query_frame = Frame(req5_window)
+    output_frame = Frame(req5_window)
+
+    #create a label  -> Request 1
+    req1_label = Label(query_frame, text="Handle Car Return", font=ourFont)
+    req1_label.grid(row=0, column=0, columnspan=2, padx=200, pady=10)
+
+    # Name, return date, vin
+    #CREATE ALL THE LABELS AND ENTRY BOXES
+
+    CustName_label = Label(query_frame, text="Cust. Name: ", font=ourFont)
+    CustName_label.grid(row=1, column=0, padx=10, pady=10)
+    CustName_label_txt = Entry(query_frame, font=ourFont)
+    CustName_label_txt.grid(row=1, column=1, padx=10, pady=10)
+
+    VehicleId_name_label = Label(query_frame, text="VehicleId: ", font=ourFont)
+    VehicleId_name_label.grid(row=2, column=0, padx=10, pady=10)
+    VehicleId_name_label_txt = Entry(query_frame, font=ourFont)
+    VehicleId_name_label_txt.grid(row=2, column=1, padx=10, pady=10)
+
+    ReturnDate_name_label = Label(query_frame, text="ReturnDate: ", font=ourFont)
+    ReturnDate_name_label.grid(row=3, column=0, padx=10, pady=10)
+    ReturnDate_name_label_txt = Entry(query_frame, font=ourFont)
+    ReturnDate_name_label_txt.grid(row=3, column=1, padx=10, pady=10)
+
+    ## aAFGDDFGSDFGSFDGSDFG
+    results_label = Label(output_frame, text="", font=ourFont)
+    results_label.grid(row=0, column=0, padx=10, pady=10)
+
+    # button to submit the query
+    #
+    submit_button = Button(query_frame, text="Submit", font=ourFont, command=lambda: req5_result(results_label, CustName_label_txt.get(), VehicleId_name_label_txt.get(), ReturnDate_name_label_txt.get()))
+    submit_button.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
+
+    query_frame.grid(row=0, column=0)
+    output_frame.grid(row=1, column=0)
+
     return
 
 
@@ -341,14 +411,14 @@ conn = sqlite3.connect('finalpart3.db')
 c = conn.cursor()
 
 # add some text
-text = Label(root, text="Add some text", font=ourFont)
+text = Label(root, text="GUI CSE3330", font=ourFont)
 text.grid(row=0, column=0, columnspan=2, padx=180, pady=10)
 #horizontally center text
 
 
 # button to add a record
-req1 = Button(root, text="SELECT-FROM-WHERE Query", font=ourFont, command=req1_func)
-req1.grid(row=1, column=0, columnspan=2, pady=10)
+# req1 = Button(root, text="SELECT-FROM-WHERE Query", font=ourFont, command=req1_func)
+# req1.grid(row=1, column=0, columnspan=2, pady=10)
 
 # button to add a record
 req2 = Button(root, text="Add New Cutomer", font=ourFont,command=req2_func )
@@ -363,9 +433,9 @@ req4 = Button(root, text="New Reservation", font=ourFont, command=req4_func)
 req4.grid(row=7, column=0, columnspan=2, pady=10)
 
 # button to add a record
-req5 = Button(root, text="View Results", font=ourFont, command=req5_func)
+req5 = Button(root, text="Handle Car Return", font=ourFont, command=req5_func)
 req5.grid(row=9, column=0, columnspan=2, pady=10)
 
-
+req6 = Button(root, text="Exit", font=ourFont, command=root.quit)
 
 root.mainloop()
