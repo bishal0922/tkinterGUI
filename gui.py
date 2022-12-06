@@ -388,6 +388,13 @@ def req5_func():
 
     return
 
+def req6_func():
+    print("req6_func")
+    return
+
+def req7_func():
+    print("req7_func")
+    return
 
 '''
     ########################################
@@ -436,10 +443,10 @@ req4.grid(row=7, column=0, columnspan=2, pady=10)
 req5 = Button(root, text="Handle Car Return", font=ourFont, command=req5_func)
 req5.grid(row=9, column=0, columnspan=2, pady=10)
 
-req6 = Button(root, text="Get Customer Info", font=ourFont, command=req5_func)
+req6 = Button(root, text="Get Customer Info", font=ourFont, command=req6_func)
 req6.grid(row=11, column=0, columnspan=2, pady=10)
 
-req7 = Button(root, text="Get Vehicle Info", font=ourFont, command=req5_func)
+req7 = Button(root, text="Get Vehicle Info", font=ourFont, command=req7_func)
 req7.grid(row=13, column=0, columnspan=2, pady=10)
 
 #req6 = Button(root, text="Exit", font=ourFont, command=root.quit)
