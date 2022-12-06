@@ -436,6 +436,12 @@ req4.grid(row=7, column=0, columnspan=2, pady=10)
 req5 = Button(root, text="Handle Car Return", font=ourFont, command=req5_func)
 req5.grid(row=9, column=0, columnspan=2, pady=10)
 
-req6 = Button(root, text="Exit", font=ourFont, command=root.quit)
+req6 = Button(root, text="Get Customer Info", font=ourFont, command=req5_func)
+req6.grid(row=11, column=0, columnspan=2, pady=10)
+
+req7 = Button(root, text="Get Vehicle Info", font=ourFont, command=req5_func)
+req7.grid(row=13, column=0, columnspan=2, pady=10)
+
+#req6 = Button(root, text="Exit", font=ourFont, command=root.quit)
 
 root.mainloop()
