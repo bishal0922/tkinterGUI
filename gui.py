@@ -411,7 +411,7 @@ conn = sqlite3.connect('finalpart3.db')
 c = conn.cursor()
 
 # add some text
-text = Label(root, text="GUI CSE3330", font=ourFont)
+text = Label(root, text="PyGUI CSE3330", font=ourFont)
 text.grid(row=0, column=0, columnspan=2, padx=180, pady=10)
 #horizontally center text
 
