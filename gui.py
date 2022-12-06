@@ -24,7 +24,7 @@ def req1_result(Frame, select, from_table, where):
     results = c.fetchall()
     print(results)
 
-    #Frame.config(text=results)
+    Frame.config(text="Check the console for the results")
 
     # update Frame with results
     return
@@ -37,7 +37,7 @@ def test_works():
 def req1_func():
     #open a new window
     req1_window = Toplevel()
-    req1_window.title("Request 1")
+    req1_window.title("Select-From-Where Query")
     req1_window.geometry("500x500")
 
     #Frame to contain the input fields and output fields
@@ -45,7 +45,7 @@ def req1_func():
     output_frame = Frame(req1_window)
 
     #create a label  -> Request 1
-    req1_label = Label(query_frame, text="Request 1", font=ourFont)
+    req1_label = Label(query_frame, text="SELECT Query", font=ourFont)
     req1_label.grid(row=0, column=0, columnspan=2, padx=200, pady=10)
 
     #create a label  -> SELECT
