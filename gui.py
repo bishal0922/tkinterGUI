@@ -29,6 +29,24 @@ def req1_result(Frame, select, from_table, where):
     # update Frame with results
     return
 
+def req2_result(Frame, name, phone):
+    #connect to the database
+    
+    conn = sqlite3.connect('finalpart3 copy.db')
+    c = conn.cursor()
+
+    #execute the query
+    c.execute("INSERT INTO Customer VALUES (NULL, ?, ?)", (name, phone))
+
+    #get the results
+    results = c.fetchall()
+
+    Frame.config(text="Updated the database\n" + name + " " + phone)
+
+    #if you want to commit the changes
+    #conn.commit()
+
+    return
 
 def test_works():
     print("it works")
@@ -75,13 +93,59 @@ def req1_func():
     # button to submit the query
     submit_button = Button(query_frame, text="Submit", font=ourFont, command=lambda: req1_result(results_label, select_label_txt.get(), from_label_txt.get(), where_label_txt.get()))
     submit_button.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
-    
-
-   
 
     query_frame.grid(row=0, column=0)
     output_frame.grid(row=1, column=0)
 
+    return
+
+def req2_func():
+    #this is to add a new customer
+    req2_window = Toplevel()
+    req2_window.title("Add a new Customer")
+    req2_window.geometry("600x500")
+
+    #Frame to contain the input fields and output fields
+    query_frame = Frame(req2_window)
+    output_frame = Frame(req2_window)
+
+    #create a label  -> Request 1
+    req1_label = Label(query_frame, text="Add a new Customer", font=ourFont)
+    req1_label.grid(row=0, column=0, columnspan=2, padx=200, pady=10)
+
+    #create a label  -> Cust_name
+    cust_name_label = Label(query_frame, text="Name: ", font=ourFont)
+    cust_name_label.grid(row=1, column=0, padx=10, pady=10)
+    #create an entry box
+    cust_name_label_txt = Entry(query_frame, font=ourFont)
+    cust_name_label_txt.grid(row=1, column=1, padx=10, pady=10)
+    
+    #create a label  -> FROM
+    cust_phone_label = Label(query_frame, text="Phone: ", font=ourFont)
+    cust_phone_label.grid(row=2, column=0, padx=10, pady=10)
+    #create an entry box
+    cust_phone_label_txt = Entry(query_frame, font=ourFont)
+    cust_phone_label_txt.grid(row=2, column=1, padx=10, pady=10)
+    
+    results_label = Label(output_frame, text="", font=ourFont)
+    results_label.grid(row=0, column=0, padx=10, pady=10)
+
+    # button to submit the query
+    submit_button = Button(query_frame, text="Submit", font=ourFont, command=lambda: req2_result(results_label, cust_name_label_txt.get(), cust_phone_label_txt.get()))
+    submit_button.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
+
+    query_frame.grid(row=0, column=0)
+    output_frame.grid(row=1, column=0)
+
+    return 
+
+def req3_func():
+    return
+
+def req4_func():
+    return
+
+def req5_func():
     return
 
 # add tkinter window
@@ -108,19 +172,19 @@ req1 = Button(root, text="SELECT-FROM-WHERE Query", font=ourFont, command=req1_f
 req1.grid(row=1, column=0, columnspan=2, pady=10)
 
 # button to add a record
-req2 = Button(root, text="Button1", font=ourFont,command=test_works )
+req2 = Button(root, text="Add New Cutomer", font=ourFont,command=req2_func )
 req2.grid(row=3, column=0, columnspan=2, pady=10)
 
 # button to add a record
-req3 = Button(root, text="Button1", font=ourFont, command=test_works)
+req3 = Button(root, text="Update Vehicle", font=ourFont, command=req3_func)
 req3.grid(row=5, column=0, columnspan=2, pady=10)
 
 # button to add a record
-req4 = Button(root, text="Button1", font=ourFont, command=test_works)
+req4 = Button(root, text="New Reservation", font=ourFont, command=req4_func)
 req4.grid(row=7, column=0, columnspan=2, pady=10)
 
 # button to add a record
-req5 = Button(root, text="Button1", font=ourFont, command=test_works)
+req5 = Button(root, text="View Results", font=ourFont, command=req5_func)
 req5.grid(row=9, column=0, columnspan=2, pady=10)
 
 
